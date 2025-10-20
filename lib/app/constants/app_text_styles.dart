@@ -25,7 +25,7 @@ abstract class AppTextStyles {
   );
   static const TextStyle heading = TextStyle(
     color: AppColors.heading,
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: 'Inter',
     fontWeight: FontWeight.w600,
     letterSpacing: 0.07,
