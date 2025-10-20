@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lavescape_mob/app/constants/app_assets.dart';
 
 class SocialLoginButtons extends StatelessWidget {
   const SocialLoginButtons({super.key});
@@ -10,19 +11,19 @@ class SocialLoginButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
         _SocialButton(
-          iconAsset: 'assets/svg/facebook.svg',
+          iconAsset: AppAssets.facebookIcon,
         ),
         SizedBox(width: 16),
         _SocialButton(
-          iconAsset: 'assets/svg/google.svg',
+          iconAsset: AppAssets.googleIcon,
         ),
         SizedBox(width: 16),
         _SocialButton(
-          iconAsset: 'assets/svg/apple.svg',
+          iconAsset: AppAssets.appleIcon,
         ),
         SizedBox(width: 16),
         _SocialButton(
-          iconAsset: 'assets/svg/mail.svg',
+          iconAsset: AppAssets.mailIcon,
         ),
       ],
     );

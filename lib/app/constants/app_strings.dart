@@ -6,6 +6,7 @@ abstract class AppStrings {
   static const String verifyEmail = 'Verify Email';
   static const String finishingSignup = 'Finishing Signup';
   static const String profileCreated = 'Profile Created';
+  static const String phoneNumber = 'Phone Number';
   static const String next = 'Next';
   static const String verify = 'Verify';
   static const String finish = 'Finish';

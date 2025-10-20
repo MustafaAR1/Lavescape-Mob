@@ -10,7 +10,7 @@ class UIDivider extends StatelessWidget {
       {super.key,
       this.height,
       this.thickness = 0.5,
-      this.color = AppColors.borderColor,
+      this.color = AppColors.label,
       this.horizontalPadding = 0.0});
 
   @override

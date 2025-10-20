@@ -25,7 +25,7 @@ class ContinueWithMobileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 14,
           children: [
-            VSpace.large(),
+            VSpace.xlarge(),
             Center(child: UISvgIcon(AppAssets.appLogo)),
             VSpace.medium(),
             UIText(
@@ -37,6 +37,7 @@ class ContinueWithMobileScreen extends StatelessWidget {
               style: AppTextStyles.body
                   .copyWith(fontSize: 14, color: AppColors.placeholder),
             ),
+            VSpace.xxsmall(),
             PhoneNumberTextField(
               hintText: '(000) 000-0000',
             ),
@@ -56,6 +57,7 @@ class ContinueWithMobileScreen extends StatelessWidget {
                 UIDivider(),
               ],
             ),
+            VSpace.small(),
             SocialLoginButtons()
           ],
         ),

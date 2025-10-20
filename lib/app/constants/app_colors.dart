@@ -6,5 +6,7 @@ abstract class AppColors {
   static const Color heading = Color(0xFF000000);
   static const Color placeholder = Color(0xFF6B7280);
   static const Color primaryPurple = Color(0xFF9333EA);
-  static const Color borderColor = Color(0xFFE5E7EB);
+  static const Color inputBorder = Color(0xFFE5E7EB);
+  static const Color inputBackground = Colors.white;
+  static const Color inputShadow = Color(0x0C000000);
 }
