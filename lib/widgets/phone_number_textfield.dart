@@ -6,6 +6,7 @@ import 'package:lavescape_mob/app/constants/app_text_styles.dart';
 import 'package:lavescape_mob/app/constants/app_colors.dart';
 import 'package:lavescape_mob/app/widgets/app_spacing_widgets.dart';
 import 'package:lavescape_mob/widgets/ui_text.dart';
+import 'package:lavescape_mob/widgets/ui_textfield.dart';
 
 class PhoneNumberTextField extends StatefulWidget {
   final TextEditingController? controller;
@@ -85,18 +86,11 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                 ),
               ),
               Expanded(
-                child: TextField(
+                child: UITextField(
                   controller: widget.controller,
                   keyboardType: TextInputType.phone,
                   onChanged: widget.onChanged,
-                  style: AppTextStyles.placeholder,
-                  decoration: InputDecoration(
-                    hintText: '(000) 000-0000',
-                    hintStyle: AppTextStyles.placeholder,
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.medium, vertical: 10),
-                  ),
+                  hintText: '(000) 000-0000',
                 ),
               ),
             ],
