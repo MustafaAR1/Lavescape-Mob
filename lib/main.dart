@@ -6,18 +6,20 @@ import 'package:lavescape_mob/signup/cubit/signup_cubit.dart';
 import 'package:lavescape_mob/data/datasources/fake_auth_api.dart';
 import 'package:lavescape_mob/data/repositories/auth_repository_impl.dart';
 import 'package:lavescape_mob/domain/usecases/send_otp_usecase.dart';
+import 'package:lavescape_mob/domain/usecases/verify_otp_usecase.dart';
 
 void main() {
   // Initialize dependencies
   final fakeAuthApi = FakeAuthApi();
   final authRepository = AuthRepositoryImpl(fakeAuthApi);
   final sendOtpUseCase = SendOtpUseCase(authRepository);
+  final verifyOtpUseCase = VerifyOtpUseCase(authRepository);
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<SignupCubit>(
-          create: (BuildContext context) => SignupCubit(sendOtpUseCase),
+          create: (BuildContext context) => SignupCubit(sendOtpUseCase, verifyOtpUseCase),
         ),
       ],
       child: const MyApp(),

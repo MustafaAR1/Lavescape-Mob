@@ -32,61 +32,85 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
   @override
   Widget build(BuildContext context) {
     final _signupCubit = BlocProvider.of<SignupCubit>(context);
-    return UiScaffold(
-      title: AppStrings.verifyPhone,
-      body: AppPadding.xlarge(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UIText(
-              AppStrings.otpConfirmation,
-              style: AppTextStyles.heading,
-            ),
-            VSpace.xxsmall(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocConsumer<SignupCubit, SignupState>(
+      listener: (context, state) {
+        if (state is VerifyOtpFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error)),
+          );
+        }
+        if (state is VerifyOtpSuccess) {
+          _signupCubit.routeToFinishingSignup(context);
+        }
+      },
+      builder: (context, state) {
+        final bool isLoading = state.isLoading;
+        return UiScaffold(
+          title: AppStrings.verifyPhone,
+          body: AppPadding.xlarge(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                UIText(
+                  AppStrings.otpConfirmation,
+                  style: AppTextStyles.heading,
+                ),
+                VSpace.xxsmall(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    UIText(
-                      AppStrings.enterCodeSentTo,
-                      style: AppTextStyles.body
-                          .copyWith(fontSize: 14, color: AppColors.placeholder),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        UIText(
+                          AppStrings.enterCodeSentTo,
+                          style: AppTextStyles.body.copyWith(
+                              fontSize: 14, color: AppColors.placeholder),
+                        ),
+                        UIText(_signupCubit.phoneNumber,
+                            style:
+                                AppTextStyles.heading.copyWith(fontSize: 14)),
+                      ],
                     ),
-                    UIText(_signupCubit.phoneNumber,
-                        style: AppTextStyles.heading.copyWith(fontSize: 14)),
+                    IconButton(
+                        onPressed: () {
+                          _signupCubit.routetoEditPhoneNumer(context);
+                        },
+                        icon: Icon(
+                          Icons.mode_edit_outline_outlined,
+                        )),
                   ],
                 ),
-                IconButton(
-                    onPressed: () {
-                      _signupCubit.editPhoneNumer(context);
-                    },
-                    icon: Icon(
-                      Icons.mode_edit_outline_outlined,
-                    )),
+                VSpace.large(),
+                OtpTextField(
+                  controller: _otpController,
+                  onChanged: (value) {
+                    if (value.length == 6) {
+                      FocusScope.of(context).unfocus(); // Dismiss keyboard
+                    }
+                  },
+                ),
+                VSpace.small(),
+                _otpTimer(_signupCubit),
+                VSpace.xlarge(),
+                UIButton(
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          if (_otpController.text.length == 6) {
+                            _signupCubit.verifyOtp(_otpController.text);
+                          }
+                        },
+                  child: isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const UIText(AppStrings.continueText),
+                ),
+                VSpace.large(),
               ],
             ),
-            VSpace.large(),
-            OtpTextField(
-              controller: _otpController,
-              onChanged: (value) {
-                if (value.length == 6) {
-                  // TODO: Handle OTP verification
-                }
-              },
-            ),
-            VSpace.small(),
-            VSpace.xlarge(),
-            UIButton(
-              onPressed: () {},
-              child: const UIText(AppStrings.continueText),
-            ),
-            VSpace.large(),
-            _otpTimer(_signupCubit),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

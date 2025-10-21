@@ -3,14 +3,17 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:lavescape_mob/app/routes/app_routes.dart';
 import 'package:lavescape_mob/domain/usecases/send_otp_usecase.dart';
+import 'package:lavescape_mob/domain/usecases/verify_otp_usecase.dart';
 import 'package:lavescape_mob/data/models/otp_response_model.dart';
 
 import 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   final SendOtpUseCase sendOtpUseCase;
+  final VerifyOtpUseCase verifyOtpUseCase;
 
-  SignupCubit(this.sendOtpUseCase) : super(const SendOTPInitial());
+  SignupCubit(this.sendOtpUseCase, this.verifyOtpUseCase)
+      : super(const SendOTPInitial());
 
   String _phoneNumber = "";
   Timer? _timer;
@@ -35,12 +38,61 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
+  Future<void> verifyOtp(String otp, BuildContext context) async {
+    emit(OTPTimerTick(
+        secondsRemaining: _secondsRemaining,
+        isResending: _isResending,
+        isLoading: true));
+    try {
+      final verificationResponse =
+          await verifyOtpUseCase.call(_phoneNumber, otp);
+      if (verificationResponse.success) {
+        emit(const VerifyOtpSuccess(isLoading: false));
+        routeToFinishingSignup(context);
+      } else {
+        emit(VerifyOtpFailure(
+            verificationResponse.message ?? 'OTP verification failed',
+            isLoading: false));
+      }
+    } catch (e) {
+      emit(VerifyOtpFailure(e.toString(), isLoading: false));
+    }
+  }
+
   void routeToOTPScreen(BuildContext context) {
     Navigator.of(context).pushNamed(Routes.VERIFY_PHONE);
   }
 
-  void editPhoneNumer(BuildContext context) {
+  void routetoEditPhoneNumer(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void routeToFinishingSignup(BuildContext context) {
+    Navigator.of(context).pushNamed(Routes.FINISHING_SIGNUP);
+    emit(const SignupFinishing());
+  }
+
+  void togglePasswordVisibility() {
+    if (state is SignupFinishing) {
+      final currentFinishingState = state as SignupFinishing;
+      emit(currentFinishingState.copyWith(
+          isPasswordVisible: !currentFinishingState.isPasswordVisible));
+    }
+  }
+
+  void finishSignup(
+    String legalName,
+    String dob,
+    String email,
+    String password,
+  ) {
+    // TODO: Implement actual signup logic here
+    print('Finishing Signup with:');
+    print('Legal Name: $legalName');
+    print('DOB: $dob');
+    print('Email: $email');
+    print('Password: $password');
+    emit(const SignupSuccess());
   }
 
   String get phoneNumber => _phoneNumber;

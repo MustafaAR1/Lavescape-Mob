@@ -39,7 +39,41 @@ class SignupEmailVerification extends SignupState {
 }
 
 class SignupFinishing extends SignupState {
-  const SignupFinishing({super.isLoading});
+  final bool isPasswordVisible;
+  final String legalName;
+  final String dob;
+  final String email;
+  final String password;
+
+  const SignupFinishing({
+    super.isLoading,
+    this.isPasswordVisible = false,
+    this.legalName = '',
+    this.dob = '',
+    this.email = '',
+    this.password = '',
+  });
+
+  @override
+  List<Object> get props => [isLoading, isPasswordVisible, legalName, dob, email, password];
+
+  SignupFinishing copyWith({
+    bool? isLoading,
+    bool? isPasswordVisible,
+    String? legalName,
+    String? dob,
+    String? email,
+    String? password,
+  }) {
+    return SignupFinishing(
+      isLoading: isLoading ?? this.isLoading,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      legalName: legalName ?? this.legalName,
+      dob: dob ?? this.dob,
+      email: email ?? this.email,
+      password: password ?? this.password,
+    );
+  }
 }
 
 class SendOTPSuccess extends SignupState {
@@ -50,6 +84,19 @@ class SendOTPFailure extends SignupState {
   final String error;
 
   const SendOTPFailure(this.error, {super.isLoading});
+
+  @override
+  List<Object> get props => [error, isLoading];
+}
+
+class VerifyOtpSuccess extends SignupState {
+  const VerifyOtpSuccess({super.isLoading});
+}
+
+class VerifyOtpFailure extends SignupState {
+  final String error;
+
+  const VerifyOtpFailure(this.error, {super.isLoading});
 
   @override
   List<Object> get props => [error, isLoading];

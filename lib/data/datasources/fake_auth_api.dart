@@ -10,4 +10,21 @@ class FakeAuthApi {
       'message': 'OTP sent successfully',
     };
   }
+
+  Future<Map<String, dynamic>> verifyOtp(String phoneNumber, String otp) async {
+    // Simulate network delay
+    await Future.delayed(const Duration(seconds: 2));
+    print('Verifying OTP $otp for $phoneNumber');
+    if (otp == '123456') {
+      return {
+        'success': true,
+        'message': 'OTP verified successfully',
+      };
+    } else {
+      return {
+        'success': false,
+        'message': 'Invalid OTP',
+      };
+    }
+  }
 }

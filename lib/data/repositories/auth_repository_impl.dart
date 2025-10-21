@@ -1,5 +1,6 @@
 import 'package:lavescape_mob/data/datasources/fake_auth_api.dart';
 import 'package:lavescape_mob/data/models/otp_response_model.dart';
+import 'package:lavescape_mob/data/models/otp_verification_response_model.dart';
 import 'package:lavescape_mob/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -15,5 +16,15 @@ class AuthRepositoryImpl implements AuthRepository {
       throw Exception(otpResponse.message ?? 'Failed to send OTP');
     }
     return otpResponse;
+  }
+
+  @override
+  Future<OtpVerificationResponseModel> verifyOtp(String phoneNumber, String otp) async {
+    final response = await fakeAuthApi.verifyOtp(phoneNumber, otp);
+    final otpVerificationResponse = OtpVerificationResponseModel.fromJson(response);
+    if (!otpVerificationResponse.success) {
+      throw Exception(otpVerificationResponse.message ?? 'Failed to verify OTP');
+    }
+    return otpVerificationResponse;
   }
 }
