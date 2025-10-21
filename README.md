@@ -23,31 +23,32 @@ Mock APIs are used for signup and OTP verification. The default OTP for the mock
 
 ## Architecture (Clean Architecture)
 
-The codebase is organized into three main layers:
+The codebase is organized into feature-based modules, each adhering to Clean Architecture principles:
 
-- Presentation: UI, widgets, and state management (Cubits/BLoCs). Look under `lib/` — feature modules are grouped (e.g. `signup/`, `auth/`).
-- Domain: Pure business logic — entities, repository interfaces, and use cases. Located under `lib/domain/`.
-- Data: Implementations of repository interfaces, data sources (mock API clients), and models. Located under `lib/data/` and `lib/data/datasources/`.
+- Presentation: UI, widgets, and state management (Cubits/BLoCs) within each feature module (e.g., `signup/cubit/`, `signup/views/`).
+- Domain: Pure business logic — entities, repository interfaces, and use cases, located within each feature's `domain/` folder (e.g., `signup/domain/`).
+- Data: Implementations of repository interfaces, data sources (mock API clients), and models, located within each feature's `data/` folder (e.g., `signup/data/`).
 
 Key folder mapping (high-level):
 
 ```
 lib/
-	├─ domain/
-	│   ├─ repositories/      # abstract contracts
-	│   └─ usecases/          # business use-cases
-	├─ data/
-	│   ├─ datasources/       # api clients, mock backends
-	│   ├─ models/            # data models and mappers
-	│   └─ repositories/      # concrete repository implementations
-	├─ signup/                # feature module
-	│   ├─ cubit/             # Cubit files and states
-	│   └─ views/             # screens and widgets
-	└─ widgets/               # global reusable widgets
+	├─ app/                   # Global app-level files (constants, routes, splash screen)
+	├─ signup/                # Feature module
+	│   ├─ cubit/             # Cubit files and states for signup
+	│   ├─ data/              # Data layer for signup (datasources, models, repositories)
+	│   │   ├─ datasources/   # api clients, mock backends for signup
+	│   │   ├─ models/        # data models and mappers for signup
+	│   │   └─ repositories/  # concrete repository implementations for signup
+	│   ├─ domain/            # Domain layer for signup (repositories, usecases)
+	│   │   ├─ repositories/  # abstract contracts for signup
+	│   │   └─ usecases/      # business use-cases for signup
+	│   └─ views/             # screens and widgets for signup
+	├─ auth/                  # Another feature module (if exists)
+	└─ widgets/               # Global reusable widgets
 ```
 
-This layout enforces dependency direction: presentation -> domain -> data. Domain never depends on data or presentation.
-
+This layout enforces dependency direction: presentation -> domain -> data within each feature. Domain never depends on data or presentation.
 SOLID notes
 - Single Responsibility: each class/file focuses on one purpose (e.g., a Cubit only manages signup state, a UseCase only performs one business action).
 - Dependency Inversion: high-level modules (use cases) depend on abstractions (repository interfaces) declared in the domain layer; concrete implementations are provided in the data layer via dependency injection.
