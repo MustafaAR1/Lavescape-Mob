@@ -232,18 +232,5 @@ Planned improvements:
 
 ---
 
-## Purpose for Interviewers 🎯
-
-This repository is intentionally structured to demonstrate my architecture and engineering decisions:
-
-- How I separate concerns and apply Clean Architecture.
-- How I design and manage state with BLoC/Cubit to keep UI predictable and testable.
-- How I follow SOLID principles and dependency inversion.
-
-If you'd like, I can walk you through specific files such as `lib/signup/cubit/*`, `lib/domain/usecases/*`, or `lib/data/repositories/*` during an interview to explain design decisions and trade-offs.
-
----
-
-Thank you for reviewing — if you want, I can also add a short walkthrough video or annotated diagram showing the dependency graph and control flow.
 # lavescape_mob
 
