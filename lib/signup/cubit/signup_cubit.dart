@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:lavescape_mob/app/routes/app_routes.dart';
-import 'package:lavescape_mob/domain/usecases/send_otp_usecase.dart';
-import 'package:lavescape_mob/domain/usecases/verify_otp_usecase.dart';
-import 'package:lavescape_mob/data/models/otp_response_model.dart';
+import 'package:lavescape_mob/signup/domain/usecases/send_otp_usecase.dart';
+import 'package:lavescape_mob/signup/domain/usecases/verify_otp_usecase.dart';
+import 'package:lavescape_mob/signup/data/models/otp_response_model.dart';
 
 import 'signup_state.dart';
 

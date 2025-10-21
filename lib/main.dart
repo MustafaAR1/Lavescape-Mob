@@ -3,10 +3,10 @@ import 'package:lavescape_mob/app/constants/app_strings.dart';
 import 'package:lavescape_mob/app/routes/app_pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lavescape_mob/signup/cubit/signup_cubit.dart';
-import 'package:lavescape_mob/data/datasources/fake_auth_api.dart';
-import 'package:lavescape_mob/data/repositories/auth_repository_impl.dart';
-import 'package:lavescape_mob/domain/usecases/send_otp_usecase.dart';
-import 'package:lavescape_mob/domain/usecases/verify_otp_usecase.dart';
+import 'package:lavescape_mob/signup/data/datasources/fake_auth_api.dart';
+import 'package:lavescape_mob/signup/data/repositories/auth_repository_impl.dart';
+import 'package:lavescape_mob/signup/domain/usecases/send_otp_usecase.dart';
+import 'package:lavescape_mob/signup/domain/usecases/verify_otp_usecase.dart';
 
 void main() {
   // Initialize dependencies
@@ -19,7 +19,8 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider<SignupCubit>(
-          create: (BuildContext context) => SignupCubit(sendOtpUseCase, verifyOtpUseCase),
+          create: (BuildContext context) =>
+              SignupCubit(sendOtpUseCase, verifyOtpUseCase),
         ),
       ],
       child: const MyApp(),

@@ -6,7 +6,7 @@ import 'package:lavescape_mob/signup/views/finishing_signup_screen.dart';
 import 'package:lavescape_mob/signup/views/guest_profile_created_screen.dart';
 import 'package:lavescape_mob/signup/views/verify_email_screen.dart';
 import 'package:lavescape_mob/signup/views/verify_phone_screen.dart';
-import 'package:lavescape_mob/app/views/splash_screen.dart';
+import 'package:lavescape_mob/splash/views/splash_screen.dart';
 
 class AppPages {
   static const INITIAL = Routes.SPLASH;
@@ -46,7 +46,8 @@ class AppPages {
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
