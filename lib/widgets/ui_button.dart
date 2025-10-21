@@ -5,18 +5,21 @@ class UIButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final ButtonStyle? style;
+  final double? height;
 
   const UIButton({
     super.key,
     required this.onPressed,
     required this.child,
     this.style,
+    this.height = 50.0, // Default height
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: style ??

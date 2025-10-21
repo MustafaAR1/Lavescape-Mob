@@ -96,7 +96,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
         int secondsRemaining = 0;
         bool isResending = false;
 
-        if (state is SignupTimerTick) {
+        if (state is OTPTimerTick) {
           secondsRemaining = state.secondsRemaining;
           isResending = state.isResending;
         }

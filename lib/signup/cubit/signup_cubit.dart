@@ -2,11 +2,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:lavescape_mob/app/routes/app_routes.dart';
+import 'package:lavescape_mob/domain/usecases/send_otp_usecase.dart';
+import 'package:lavescape_mob/data/models/otp_response_model.dart';
 
 import 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(SignupInitial());
+  final SendOtpUseCase sendOtpUseCase;
+
+  SignupCubit(this.sendOtpUseCase) : super(const SendOTPInitial());
 
   String _phoneNumber = "";
   Timer? _timer;
@@ -18,9 +22,21 @@ class SignupCubit extends Cubit<SignupState> {
     _phoneNumber = phoneNo;
   }
 
+  Future<void> sendOTP(BuildContext context) async {
+    emit(const SendOTPInitial(isLoading: true));
+    try {
+      final OtpResponseModel otpResponse =
+          await sendOtpUseCase.call(_phoneNumber);
+      print('Received OTP: ${otpResponse.otp}'); // For testing purposes
+      emit(const SendOTPSuccess(isLoading: false));
+      startResendTimer();
+    } catch (e) {
+      emit(SendOTPFailure(e.toString(), isLoading: false));
+    }
+  }
+
   void routeToOTPScreen(BuildContext context) {
     Navigator.of(context).pushNamed(Routes.VERIFY_PHONE);
-    startResendTimer();
   }
 
   void editPhoneNumer(BuildContext context) {
@@ -33,8 +49,10 @@ class SignupCubit extends Cubit<SignupState> {
       Stream.periodic(const Duration(seconds: 1), (x) {
         if (_secondsRemaining > 0) {
           _secondsRemaining--;
-          emit(SignupTimerTick(
-              secondsRemaining: _secondsRemaining, isResending: _isResending));
+          emit(OTPTimerTick(
+              secondsRemaining: _secondsRemaining,
+              isResending: _isResending,
+              isLoading: false));
         }
         return _secondsRemaining;
       }).takeWhile((seconds) => seconds >= 0);
@@ -42,34 +60,57 @@ class SignupCubit extends Cubit<SignupState> {
   void startResendTimer() {
     _secondsRemaining = 60;
     _isResending = true;
-    emit(SignupTimerTick(
-        secondsRemaining: _secondsRemaining, isResending: _isResending));
+    emit(OTPTimerTick(
+        secondsRemaining: _secondsRemaining,
+        isResending: _isResending,
+        isLoading: false));
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining == 0) {
         _timer?.cancel();
         _isResending = false;
-        emit(SignupTimerTick(
-            secondsRemaining: _secondsRemaining, isResending: _isResending));
+        emit(OTPTimerTick(
+            secondsRemaining: _secondsRemaining,
+            isResending: _isResending,
+            isLoading: false));
       } else {
         _secondsRemaining--;
-        emit(SignupTimerTick(
-            secondsRemaining: _secondsRemaining, isResending: _isResending));
+        emit(OTPTimerTick(
+            secondsRemaining: _secondsRemaining,
+            isResending: _isResending,
+            isLoading: false));
       }
     });
   }
 
-  void resendCode() {
+  Future<void> resendCode() async {
     _resendAttempts++;
-    startResendTimer();
+    emit(OTPTimerTick(
+        secondsRemaining: _secondsRemaining,
+        isResending: _isResending,
+        isLoading: true));
+    try {
+      final OtpResponseModel otpResponse =
+          await sendOtpUseCase.call(_phoneNumber);
+      print('Resent OTP: ${otpResponse.otp}'); // For testing purposes
+      emit(OTPTimerTick(
+          secondsRemaining: _secondsRemaining,
+          isResending: _isResending,
+          isLoading: false));
+      startResendTimer();
+    } catch (e) {
+      emit(SendOTPFailure(e.toString(), isLoading: false));
+    }
   }
 
   void resetResendTimer() {
     _timer?.cancel();
     _secondsRemaining = 0;
     _isResending = false;
-    emit(SignupTimerTick(
-        secondsRemaining: _secondsRemaining, isResending: _isResending));
+    emit(OTPTimerTick(
+        secondsRemaining: _secondsRemaining,
+        isResending: _isResending,
+        isLoading: false));
   }
 
   @override
