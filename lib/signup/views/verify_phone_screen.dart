@@ -98,7 +98,8 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
                       ? null
                       : () {
                           if (_otpController.text.length == 6) {
-                            _signupCubit.verifyOtp(_otpController.text);
+                            _signupCubit.verifyOtp(
+                                _otpController.text, context);
                           }
                         },
                   child: isLoading

@@ -48,7 +48,6 @@ class SignupCubit extends Cubit<SignupState> {
           await verifyOtpUseCase.call(_phoneNumber, otp);
       if (verificationResponse.success) {
         emit(const VerifyOtpSuccess(isLoading: false));
-        routeToFinishingSignup(context);
       } else {
         emit(VerifyOtpFailure(
             verificationResponse.message ?? 'OTP verification failed',
@@ -92,7 +91,7 @@ class SignupCubit extends Cubit<SignupState> {
     print('DOB: $dob');
     print('Email: $email');
     print('Password: $password');
-    emit(const SignupSuccess());
+    // emit(const SignupSuccess());
   }
 
   String get phoneNumber => _phoneNumber;

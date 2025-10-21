@@ -76,6 +76,19 @@ class SignupFinishing extends SignupState {
   }
 }
 
+class SignupSuccess extends SignupState {
+  const SignupSuccess({super.isLoading});
+}
+
+class SignupFailure extends SignupState {
+  final String error;
+
+  const SignupFailure(this.error, {super.isLoading});
+
+  @override
+  List<Object> get props => [error, isLoading];
+}
+
 class SendOTPSuccess extends SignupState {
   const SendOTPSuccess({super.isLoading});
 }

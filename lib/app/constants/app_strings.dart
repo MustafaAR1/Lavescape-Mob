@@ -20,4 +20,14 @@ abstract class AppStrings {
   static const String enterCodeSentTo = 'Enter the code we sent SMS over to';
   static const String didntReceiveCode = 'Didn\'t receive code?';
   static const String resendIn = 'Resend in';
+  static const String agreeAndContinue = 'Agree and Continue';
+  static const String completeYourProfile = 'Complete Your Profile';
+  static const String legalName = 'Legal Name';
+  static const String dateOfBirth = 'Date of Birth';
+  static const String email = 'Email Address';
+  static const String createPassword = 'Create Password';
+  static const String hintEnterYourName = 'Enter your name';
+  static const String hintEnterYourDOB = 'Enter your DOB';
+  static const String hintExampleEmail = 'example@email.com';
+  static const String hintPassword = 'abcd';
 }
