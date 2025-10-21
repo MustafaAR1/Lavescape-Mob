@@ -29,7 +29,8 @@ class UIButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8), // Example border radius
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Example padding
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16, vertical: 1), // Example padding
             ),
         child: child,
       ),

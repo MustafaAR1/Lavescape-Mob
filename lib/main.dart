@@ -36,7 +36,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: AppStrings.flutterDemo,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
       ),
       initialRoute: AppPages.INITIAL,
       onGenerateRoute: AppPages.onGenerateRoute,

@@ -50,60 +50,63 @@ class _ContinueWithMobileScreenState extends State<ContinueWithMobileScreen> {
       builder: (context, state) {
         final bool isLoading = state.isLoading;
         return UiScaffold(
+          resizeToAvoidBottomOverFlow: false,
           body: AppPadding.xlarge(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 14,
-                children: [
-                  VSpace.xlarge(),
-                  Center(child: UISvgIcon(AppAssets.appLogo)),
-                  VSpace.medium(),
-                  UIText(
-                    AppStrings.welcomeToLaveScape,
-                    style: AppTextStyles.heading,
-                  ),
-                  UIText(
-                    AppStrings.discoverAuthenticExperiences,
-                    style: AppTextStyles.body
-                        .copyWith(fontSize: 14, color: AppColors.placeholder),
-                  ),
-                  VSpace.xxsmall(),
-                  PhoneNumberTextField(
-                    controller: _phoneNumberController,
-                    hintText: '(000) 000-0000',
-                    validator: (value) =>
-                        AppValidators.validateEmpty(value, 'Phone number'),
-                  ),
-                  VSpace.large(),
-                  UIButton(
-                    onPressed: isLoading
-                        ? null
-                        : () async {
-                            if (_formKey.currentState!.validate()) {
-                              _signupCubit
-                                  .setPhoneNumber(_phoneNumberController.text);
-                              await _signupCubit.sendOTP(context);
-                            }
-                          },
-                    child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const UIText(AppStrings.continueText),
-                  ),
-                  VSpace.small(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      UIDivider(),
-                      UIText('OR'),
-                      UIDivider(),
-                    ],
-                  ),
-                  VSpace.small(),
-                  SocialLoginButtons()
-                ],
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 14,
+                  children: [
+                    VSpace.xlarge(),
+                    Center(child: UISvgIcon(AppAssets.appLogo)),
+                    VSpace.medium(),
+                    UIText(
+                      AppStrings.welcomeToLaveScape,
+                      style: AppTextStyles.heading,
+                    ),
+                    UIText(
+                      AppStrings.discoverAuthenticExperiences,
+                      style: AppTextStyles.body
+                          .copyWith(fontSize: 14, color: AppColors.placeholder),
+                    ),
+                    VSpace.xxsmall(),
+                    PhoneNumberTextField(
+                      controller: _phoneNumberController,
+                      hintText: '(000) 000-0000',
+                      validator: (value) =>
+                          AppValidators.validateEmpty(value, 'Phone number'),
+                    ),
+                    VSpace.large(),
+                    UIButton(
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                _signupCubit.setPhoneNumber(
+                                    _phoneNumberController.text);
+                                await _signupCubit.sendOTP(context);
+                              }
+                            },
+                      child: isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const UIText(AppStrings.continueText),
+                    ),
+                    VSpace.small(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        UIDivider(),
+                        UIText('OR'),
+                        UIDivider(),
+                      ],
+                    ),
+                    VSpace.small(),
+                    SocialLoginButtons()
+                  ],
+                ),
               ),
             ),
           ),

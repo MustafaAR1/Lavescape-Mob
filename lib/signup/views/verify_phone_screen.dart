@@ -90,7 +90,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
                     }
                   },
                 ),
-                VSpace.small(),
+                VSpace.large(),
                 _otpTimer(_signupCubit),
                 VSpace.xlarge(),
                 UIButton(
