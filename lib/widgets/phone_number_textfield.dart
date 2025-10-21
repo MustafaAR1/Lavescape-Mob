@@ -12,12 +12,14 @@ class PhoneNumberTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final ValueChanged<String>? onChanged;
+  final FormFieldValidator<String>? validator;
 
   const PhoneNumberTextField({
     super.key,
     this.controller,
     this.hintText,
     this.onChanged,
+    this.validator,
   });
 
   @override
@@ -91,6 +93,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                   keyboardType: TextInputType.phone,
                   onChanged: widget.onChanged,
                   hintText: '(000) 000-0000',
+                  validator: widget.validator,
                 ),
               ),
             ],

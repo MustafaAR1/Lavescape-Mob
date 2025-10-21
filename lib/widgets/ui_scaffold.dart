@@ -18,6 +18,10 @@ class UiScaffold extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: title != null
           ? AppBar(
+              backgroundColor: backgroundColor,
+              elevation: 1,
+              centerTitle: true,
+              toolbarHeight: 75,
               title: Text(title!),
             )
           : null,

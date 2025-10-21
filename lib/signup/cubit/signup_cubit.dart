@@ -1,34 +1,80 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:lavescape_mob/app/routes/app_routes.dart';
 
 import 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupInitial());
 
-  void toPhoneInput() => emit(SignupPhoneInput());
+  String _phoneNumber = "";
+  Timer? _timer;
+  int _secondsRemaining = 60;
+  int _resendAttempts = 0;
+  bool _isResending = false;
 
-  void submitPhoneNumber(String phoneNumber) {
-    // Here you would typically make an API call to send a verification code
-    emit(SignupPhoneVerification(phoneNumber));
+  void setPhoneNumber(String phoneNo) {
+    _phoneNumber = phoneNo;
   }
 
-  void submitPhoneVerificationCode(String code) {
-    // Here you would verify the code
-    emit(SignupEmailInput());
+  void routeToOTPScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(Routes.VERIFY_PHONE);
+    startResendTimer();
   }
 
-  void submitEmail(String email) {
-    // Here you would typically make an API call to send a verification code
-    emit(SignupEmailVerification(email));
+  void editPhoneNumer(BuildContext context) {
+    Navigator.pop(context);
   }
 
-  void submitEmailVerificationCode(String code) {
-    // Here you would verify the code
-    emit(SignupFinishing());
+  String get phoneNumber => _phoneNumber;
+
+  Stream<int> get timerStream =>
+      Stream.periodic(const Duration(seconds: 1), (x) {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+          emit(SignupTimerTick(
+              secondsRemaining: _secondsRemaining, isResending: _isResending));
+        }
+        return _secondsRemaining;
+      }).takeWhile((seconds) => seconds >= 0);
+
+  void startResendTimer() {
+    _secondsRemaining = 60;
+    _isResending = true;
+    emit(SignupTimerTick(
+        secondsRemaining: _secondsRemaining, isResending: _isResending));
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining == 0) {
+        _timer?.cancel();
+        _isResending = false;
+        emit(SignupTimerTick(
+            secondsRemaining: _secondsRemaining, isResending: _isResending));
+      } else {
+        _secondsRemaining--;
+        emit(SignupTimerTick(
+            secondsRemaining: _secondsRemaining, isResending: _isResending));
+      }
+    });
   }
 
-  void finishSignup(String username) {
-    // Here you would create the user profile
-    emit(SignupSuccess());
+  void resendCode() {
+    _resendAttempts++;
+    startResendTimer();
+  }
+
+  void resetResendTimer() {
+    _timer?.cancel();
+    _secondsRemaining = 0;
+    _isResending = false;
+    emit(SignupTimerTick(
+        secondsRemaining: _secondsRemaining, isResending: _isResending));
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
   }
 }

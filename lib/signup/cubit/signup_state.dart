@@ -43,3 +43,16 @@ class SignupFailure extends SignupState {
   @override
   List<Object> get props => [error];
 }
+
+class SignupTimerTick extends SignupState {
+  final int secondsRemaining;
+  final bool isResending;
+
+  const SignupTimerTick({
+    required this.secondsRemaining,
+    required this.isResending,
+  });
+
+  @override
+  List<Object> get props => [secondsRemaining, isResending];
+}

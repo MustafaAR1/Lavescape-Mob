@@ -9,6 +9,7 @@ class UITextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final TextInputType? keyboardType;
   final bool obscureText;
+  final FormFieldValidator<String>? validator;
 
   const UITextField({
     super.key,
@@ -17,6 +18,7 @@ class UITextField extends StatelessWidget {
     this.onChanged,
     this.keyboardType,
     this.obscureText = false,
+    this.validator,
   });
 
   @override
@@ -42,12 +44,13 @@ class UITextField extends StatelessWidget {
           )
         ],
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
         onChanged: onChanged,
         obscureText: obscureText,
         style: AppTextStyles.placeholder,
+        validator: validator,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: AppTextStyles.placeholder,

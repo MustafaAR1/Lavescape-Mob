@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lavescape_mob/app/constants/app_strings.dart';
 import 'package:lavescape_mob/app/routes/app_pages.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lavescape_mob/signup/cubit/signup_cubit.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<SignupCubit>(
+          create: (BuildContext context) => SignupCubit(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

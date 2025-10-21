@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lavescape_mob/app/constants/app_assets.dart';
 import 'package:lavescape_mob/app/constants/app_colors.dart';
 import 'package:lavescape_mob/app/constants/app_strings.dart';
 import 'package:lavescape_mob/app/constants/app_text_styles.dart';
 import 'package:lavescape_mob/app/widgets/app_paddings.dart';
 import 'package:lavescape_mob/app/widgets/app_spacing_widgets.dart';
+import 'package:lavescape_mob/signup/cubit/signup_cubit.dart';
 import 'package:lavescape_mob/widgets/phone_number_textfield.dart';
 import 'package:lavescape_mob/widgets/social_login_buttons.dart';
 import 'package:lavescape_mob/widgets/svg_icon.dart';
@@ -13,6 +15,8 @@ import 'package:lavescape_mob/widgets/ui_divider.dart';
 import 'package:lavescape_mob/widgets/ui_scaffold.dart';
 import 'package:lavescape_mob/widgets/ui_text.dart';
 import 'package:lavescape_mob/utils/app_validators.dart';
+import 'package:lavescape_mob/app/routes/app_pages.dart';
+import 'package:lavescape_mob/app/routes/app_routes.dart';
 
 class ContinueWithMobileScreen extends StatefulWidget {
   const ContinueWithMobileScreen({super.key});
@@ -34,6 +38,8 @@ class _ContinueWithMobileScreenState extends State<ContinueWithMobileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _signupCubit = BlocProvider.of<SignupCubit>(context);
+
     return UiScaffold(
       body: AppPadding.xlarge(
         child: Form(
@@ -59,13 +65,15 @@ class _ContinueWithMobileScreenState extends State<ContinueWithMobileScreen> {
               PhoneNumberTextField(
                 controller: _phoneNumberController,
                 hintText: '(000) 000-0000',
+                validator: (value) =>
+                    AppValidators.validateEmpty(value, 'Phone number'),
               ),
               VSpace.large(),
               UIButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Handle continue action
-                    print('Phone number: ${_phoneNumberController.text}');
+                    _signupCubit.setPhoneNumber(_phoneNumberController.text);
+                    _signupCubit.routeToOTPScreen(context);
                   }
                 },
                 child: const UIText(AppStrings.continueText),

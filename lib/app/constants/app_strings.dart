@@ -1,6 +1,6 @@
 abstract class AppStrings {
   static const String continueWithMobile = 'Continue with Mobile';
-  static const String verifyPhone = 'Verify Phone';
+  static const String verifyPhone = 'Verify Number';
   static const String continueWithEmail = 'Continue with Email';
   static const String continueText = 'Continue';
   static const String verifyEmail = 'Verify Email';
@@ -16,4 +16,8 @@ abstract class AppStrings {
   static const String welcomeToLaveScape = 'Welcome to Lavescape';
   static const String discoverAuthenticExperiences =
       'Discover Authentic Experiences or Share Your Own\n—Log In or Sign Up to Get Started!';
+  static const String otpConfirmation = 'OTP confirmation';
+  static const String enterCodeSentTo = 'Enter the code we sent SMS over to';
+  static const String didntReceiveCode = 'Didn\'t receive code?';
+  static const String resendIn = 'Resend in';
 }

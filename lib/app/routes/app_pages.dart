@@ -11,22 +11,44 @@ class AppPages {
   static const INITIAL = Routes.CONTINUE_WITH_MOBILE;
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    WidgetBuilder builder;
     switch (settings.name) {
       case Routes.CONTINUE_WITH_MOBILE:
-        return MaterialPageRoute(builder: (_) => ContinueWithMobileScreen());
+        builder = (_) => ContinueWithMobileScreen();
+        break;
       case Routes.VERIFY_PHONE:
-        return MaterialPageRoute(builder: (_) => VerifyPhoneScreen());
+        builder = (_) => VerifyPhoneScreen();
+        break;
       case Routes.CONTINUE_WITH_EMAIL:
-        return MaterialPageRoute(builder: (_) => ContinueWithEmailScreen());
+        builder = (_) => ContinueWithEmailScreen();
+        break;
       case Routes.VERIFY_EMAIL:
-        return MaterialPageRoute(builder: (_) => VerifyEmailScreen());
+        builder = (_) => VerifyEmailScreen();
+        break;
       case Routes.FINISHING_SIGNUP:
-        return MaterialPageRoute(builder: (_) => FinishingSignupScreen());
+        builder = (_) => FinishingSignupScreen();
+        break;
       case Routes.GUEST_PROFILE_CREATED:
-        return MaterialPageRoute(builder: (_) => GuestProfileCreatedScreen());
+        builder = (_) => GuestProfileCreatedScreen();
+        break;
       default:
-        return MaterialPageRoute(
-            builder: (_) => Text('Error: ${settings.name} not found'));
+        builder = (_) => Text('Error: ${settings.name} not found');
     }
+
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => builder(context),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }
