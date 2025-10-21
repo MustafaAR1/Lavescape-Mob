@@ -6,13 +6,17 @@ import 'package:lavescape_mob/signup/views/finishing_signup_screen.dart';
 import 'package:lavescape_mob/signup/views/guest_profile_created_screen.dart';
 import 'package:lavescape_mob/signup/views/verify_email_screen.dart';
 import 'package:lavescape_mob/signup/views/verify_phone_screen.dart';
+import 'package:lavescape_mob/app/views/splash_screen.dart';
 
 class AppPages {
-  static const INITIAL = Routes.CONTINUE_WITH_MOBILE;
+  static const INITIAL = Routes.SPLASH;
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     WidgetBuilder builder;
     switch (settings.name) {
+      case Routes.SPLASH:
+        builder = (_) => SplashScreen();
+        break;
       case Routes.CONTINUE_WITH_MOBILE:
         builder = (_) => ContinueWithMobileScreen();
         break;
